@@ -25,7 +25,7 @@ RCT_EXPORT_METHOD(start:(RCTResponseSenderBlock)locale)
     //    NSArray *locales = [44 valueForKey:@"language"];
 
 }
-RCT_EXPORT_METHOD(getTranscript:(NSString *)url locale:(NSString *)locale callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(getTranscript:(NSString *)url locale:(NSString *)locale callback:(RCTResponseSenderBlock)callback onError:(RCTResponseSenderBlock)onError)
 {
     [SFSpeechRecognizer requestAuthorization:^(SFSpeechRecognizerAuthorizationStatus status) {
         if (status == SFSpeechRecognizerAuthorizationStatusAuthorized){
@@ -35,10 +35,11 @@ RCT_EXPORT_METHOD(getTranscript:(NSString *)url locale:(NSString *)locale callba
             [speechRequest setShouldReportPartialResults:false];
             [recognizer recognitionTaskWithRequest:speechRequest resultHandler:^(SFSpeechRecognitionResult * _Nullable result, NSError * _Nullable error) {
                 if (error) {
-                    NSLog(@"%@", error);
+                    // NSLog(@"%@", error);
+                    onError(error);
                 }else{
-                    NSLog(@"%@", result);
-                    NSLog(@"Transcript is %@", [[result bestTranscription] formattedString]);
+                    // NSLog(@"%@", result);
+                    // NSLog(@"Transcript is %@", [[result bestTranscription] formattedString]);
                     callback(@[[[result bestTranscription] formattedString]]);
                 }
 
