@@ -1,6 +1,8 @@
 
 # react-native-speech-recognition
 
+This only works with iOS
+
 ## Getting started
 
 `$ npm install react-native-speech-recognition --save`
